@@ -4,10 +4,12 @@ import { useEffect, useState } from "react";
 import DiscussionList from "./components/discussionList";
 import Search from "./components/search";
 
-const url = "http://localhost:4000";
+export const url = "http://localhost:4000";
 
 function App() {
   const [discussions, setDiscussions] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
+
   useEffect(() => {
     fetch(`${url}/discussions`)
       .then((res) => res.json())
@@ -16,8 +18,12 @@ function App() {
       });
   }, []);
   const searchDiscussion = (searchText) => {
-    const searched = discussions.filter((discussion) => discussion.title.toLowerCase().includes(searchText.toLowerCase()));
-    setDiscussions(searched);
+    if (searchText.trim() === "") {
+      setFilteredData(discussions);
+    } else {
+      const filteredData = discussions.filter((discussion) => discussion.title.toLowerCase().includes(searchText));
+      setFilteredData(filteredData);
+    }
   };
 
   return (
@@ -26,7 +32,7 @@ function App() {
         <h1>My Agora States</h1>
         <Input />
         <Search searchDiscussion={searchDiscussion} />
-        <DiscussionList discussions={discussions} />
+        {filteredData.length > 0 ? <DiscussionList discussions={filteredData} /> : <DiscussionList discussions={discussions} />}
         <div className="pagination__buttons">
           <button className="pagination__left">&larr;</button>
           <button className="pagination__right">&rarr;</button>

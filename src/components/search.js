@@ -1,13 +1,14 @@
 import { useState } from "react";
 
-const Search = ({ searchDiscussion }) => {
-  const [text, setText] = useState("");
+const Search = ({ searchDiscussion, setIsSearch }) => {
+  const [searhText, setSearhText] = useState("");
   const onChange = (event) => {
-    setText(event.target.value);
+    setSearhText(event.target.value.toLowerCase());
+    searchDiscussion(searhText);
   };
   const onSearch = (event) => {
     event.preventDefault();
-    searchDiscussion(text);
+    searchDiscussion(searhText);
   };
   return (
     <div className="search__container">
