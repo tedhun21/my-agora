@@ -3,7 +3,11 @@ import Discussion from "./discussion";
 const DiscussionList = ({ discussions }) => {
   return (
     <section className="discussion__wrapper">
-      <Discussion discussions={discussions} />
+      <ul className="discussion__container">
+        {discussions.map((discussion) => (
+          <Discussion key={discussion.id} discussion={discussion} />
+        ))}
+      </ul>
     </section>
   );
 };
